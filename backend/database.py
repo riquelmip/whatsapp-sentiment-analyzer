@@ -101,13 +101,13 @@ class Database:
             print(f"Error al actualizar el análisis del mensaje: {e}")
             raise
     
-    async def get_messages(self, limit: int = 50, offset: int = 0) -> List[MessageResponse]:
+    async def get_messages(self, limit: int = 50, skip: int = 0) -> List[MessageResponse]:
         """Obtener mensajes ordenados por timestamp (más recientes primero)"""
         if not self.connected:
             raise ConnectionError("Base de datos no conectada. No se pueden recuperar mensajes.")
 
         try:
-            cursor = self.collection.find().sort("timestamp", -1).skip(offset).limit(limit)
+            cursor = self.collection.find().sort("timestamp", -1).skip(skip).limit(limit)
             messages = []
             
             async for doc in cursor:
@@ -149,10 +149,15 @@ class Database:
                 count = doc["count"]
                 result[sentiment] = count
             
+            positivo = result.get("positivo", 0)
+            negativo = result.get("negativo", 0)
+            neutro = result.get("neutro", 0)
+            
             stats = SentimentStats(
-                positivo=result.get("positivo", 0),
-                negativo=result.get("negativo", 0),
-                neutro=result.get("neutro", 0)
+                positivo=positivo,
+                negativo=negativo,
+                neutro=neutro,
+                total=positivo + negativo + neutro
             )
 
             print(f"Estadísticas de sentimientos: +{stats.positivo} -{stats.negativo} ={stats.neutro}")
