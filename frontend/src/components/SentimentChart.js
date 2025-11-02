@@ -35,6 +35,9 @@ const SentimentChart = ({ data }) => {
     outerRadius,
     percent,
   }) => {
+    // Solo mostrar etiqueta si el porcentaje es mayor al 5%
+    if (percent < 0.05) return null;
+
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -46,8 +49,9 @@ const SentimentChart = ({ data }) => {
         fill="white"
         textAnchor={x > cx ? "start" : "end"}
         dominantBaseline="central"
-        fontSize="12"
+        fontSize="14"
         fontWeight="bold"
+        style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.7)" }}
       >
         {`${(percent * 100).toFixed(0)}%`}
       </text>
@@ -56,17 +60,18 @@ const SentimentChart = ({ data }) => {
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
-      const data = payload[0];
+      const item = payload[0];
+      const total = data.positivo + data.negativo + data.neutro;
       return (
         <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-          <p className="font-semibold">{data.name}</p>
+          <p className="font-semibold">{item.name}</p>
           <p className="text-sm text-gray-600">
-            Cantidad: <span className="font-bold">{data.value}</span>
+            Cantidad: <span className="font-bold">{item.value}</span>
           </p>
           <p className="text-sm text-gray-600">
             Porcentaje:{" "}
             <span className="font-bold">
-              {((data.value / data.payload.total) * 100).toFixed(1)}%
+              {((item.value / total) * 100).toFixed(1)}%
             </span>
           </p>
         </div>
