@@ -2,22 +2,16 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Instalar todas las dependencias SSL necesarias para MongoDB Atlas
+# Instalar certificados SSL y curl para MongoDB Atlas
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     curl \
-    openssl \
-    libssl-dev \
-    libffi-dev \
-    build-essential \
     && rm -rf /var/lib/apt/lists/* \
     && update-ca-certificates
 
 # Copiar requirements e instalar dependencias
 COPY requirements.txt .
-RUN pip install --upgrade pip \
-    && pip install certifi \
-    && pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Copiar código
 COPY . .
