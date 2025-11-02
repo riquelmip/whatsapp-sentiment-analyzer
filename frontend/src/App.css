@@ -1,0 +1,31 @@
+.App {
+  text-align: left;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-md p-6 mb-6;
+}
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200;
+}
+
+.btn-success {
+  @apply bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-green-300 transition duration-200;
+}
+
+.input-field {
+  @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-300;
+}
+
+.sentiment-positive {
+  @apply text-green-600 bg-green-50 border-green-200;
+}
+
+.sentiment-negative {
+  @apply text-red-600 bg-red-50 border-red-200;
+}
+
+.sentiment-neutral {
+  @apply text-yellow-600 bg-yellow-50 border-yellow-200;
+}
