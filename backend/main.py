@@ -50,7 +50,11 @@ app = FastAPI(
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"],  
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:5173",
+        "https://whatsapp-sentiment-analyzer.riquelmipalacios.com"
+    ],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
